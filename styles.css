@@ -1,6 +1,7 @@
 :root {
   --default-color-pink: #fa97c2;
   --default-color-blue: #2fa0d5;
+  --default-color-semi-blue: #2fa0d5b0;
   --default-color-green: #73c926;
 }
 
@@ -27,4 +28,24 @@ h1 {
   font-size: 60px;
   line-height: 60px;
   font-weight: 900;
+}
+
+#navbar_header ul li a {
+  display: block;
+  padding: 0 1.5rem;
+  font-weight: bold;
+  color: blueviolet;
+  font-family: "Courier New", Courier, monospace;
+}
+
+#navbar_header ul li a.active {
+  color: var(--default-color-blue);
+}
+
+#formSearch input {
+  width: 8rem;
+}
+
+#formSearch i {
+  color: var(--default-color-green);
 }
