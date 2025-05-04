@@ -49,3 +49,54 @@ h1 {
 #formSearch i {
   color: var(--default-color-green);
 }
+
+#banner {
+  background-image: url("./images/bg-banner.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#banner > div {
+  background: url("./images/logo_bg.png") left top no-repeat,
+    url("./images/search_bg.png") right top no-repeat;
+  padding: 5rem 0 3rem 0;
+}
+
+#banner a {
+  background-color: var(--default-color-pink);
+  color: white;
+  font-family: "Tagesschrift", system-ui;
+}
+
+#banner .carousel-item {
+  min-height: 15rem;
+}
+
+#carousel-banner .carousel-indicators button {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: none;
+  margin: 0 0.25rem;
+  border-radius: 1.2rem;
+  position: relative;
+}
+
+#carousel-banner .carousel-indicators button span {
+  position: absolute;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 0.6rem;
+  border: none;
+  top: 0.3rem;
+  left: 0.3rem;
+  text-align: left;
+  text-indent: -9999px;
+}
+
+#carousel-banner .carousel-indicators button.active span {
+  background-color: var(--default-color-green);
+}
