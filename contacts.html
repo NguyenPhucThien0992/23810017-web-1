@@ -26,6 +26,8 @@
       crossorigin="anonymous"
     />
 
+    <!-- recaptcha -->
+
     <!-- custom css -->
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -267,7 +269,12 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form action="#" method="post" id="formLogin">
+            <form
+              action="#"
+              method="post"
+              id="formLogin"
+              onsubmit="onSubmit(event)"
+            >
               <h3 class="text-center">Login Form</h3>
               <div class="mb-3">
                 <input
@@ -288,6 +295,8 @@
                 />
               </div>
               <button type="submit" class="form-control">Login</button>
+
+              <div id="error_message" class="text-center text-danger"></div>
             </form>
           </div>
           <div class="modal-footer"></div>
@@ -317,5 +326,40 @@
 
     <script src="js/ol.js"></script>
     <script src="js/map.js"></script>
+    <!-- recaptcha -->
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcilC8rAAAAAEvduPSA_a564Y52vbYGCxXibKps"></script>
+
+    <script>
+      function onSubmit(event) {
+        event.preventDefault();
+        e.preventDefault();
+        grecaptcha.enterprise.ready(async () => {
+          const token = await grecaptcha.enterprise.execute(
+            "6LcilC8rAAAAAEvduPSA_a564Y52vbYGCxXibKps",
+            { action: "submit" }
+          );
+          console.log("🚀 ~ grecaptcha.enterprise.ready ~ token:", token);
+
+          let res = await fetch("verify.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({ "g-token": token }),
+          });
+
+          if (res.status === 200) {
+            sendEmail();
+          } else {
+            document.getElementById("error_message").innerHTML =
+              "Error: Can not verify recaptcha";
+          }
+        });
+      }
+      function sendEmail() {
+        console.log("send mail");
+      }
+    </script>
   </body>
 </html>
