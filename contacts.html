@@ -331,7 +331,7 @@
     <script src="js/map.js"></script>
     <!-- recaptcha -->
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lc-lC8rAAAAAH-V2TKQNBBhNCgDT-AM2kbGk9iH"></script>
-
+    <script src="js/fetchData.js"></script>
     <script>
       function onSubmit(event) {
         event.preventDefault();
@@ -359,11 +359,29 @@
           }
         });
       }
-      function sendEmail() {
-        const res = document.getElementById("responseMessage");
-        res.innerHTML = "OK";
-        res.classList.remove();
-        res.classList.toggle("text-success");
+
+      async function sendEmail() {
+        const responseMessage = document.getElementById("responseMessage");
+        try {
+          const password = "1c3cr3@m";
+          let token = await getAuthenticate("test", password);
+          let postData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            message: document.getElementById("message").value,
+            subject: document.getElementById("subject").value,
+            copy: document.getElementById("copy").checked,
+          };
+
+          const result = await sendMail(postData, token);
+          responseMessage.innerHTML = result.message;
+          responseMessage.classList.remove();
+          responseMessage.classList.toggle("text-primary");
+        } catch (err) {
+          responseMessage.innerHTML = "OK";
+          responseMessage.classList.remove();
+          responseMessage.classList.toggle("text-danger");
+        }
       }
     </script>
   </body>

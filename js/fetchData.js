@@ -1,4 +1,5 @@
 const url = "https://web1-api.vercel.app/api";
+const userUrl = "https://web1-api.vercel.app/users";
 
 async function fetchData(name, templateId, renderId) {
   await fetch(`${url}/${name}`)
@@ -49,4 +50,43 @@ async function fetchBlogDetails(blogId, gotoComment = false) {
   if (gotoComment) {
     window.location.href = "#comments";
   }
+}
+
+async function getAuthenticate(username, password) {
+  let res = await fetch(`${userUrl}/authenticate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application.json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  let result = await res.json();
+
+  if (res.status == 200) {
+    return result.token;
+  }
+
+  throw new Error(result.message);
+}
+
+async function sendMail(body, token) {
+  let res = await fetch(`${userUrl}/send`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application.json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  let result = await res.json();
+
+  if (res.status == 200) {
+    return result;
+  }
+
+  throw new Error(result.message);
 }
