@@ -1,23 +1,27 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+  if (req.method === "POST") {
+    const { token } = req.body;
 
-  const { "g-token": token } = req.body;
-  $secretKey = "6Lc-lC8rAAAAAMBfNlbqhUQd7WVaijoFrXg2_EAI";
+    const secretKey = "6Lc-lC8rAAAAAMBfNlbqhUQd7WVaijoFrXg2_EAI";
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
-  const response = await fetch(
-    "https://www.google.com/recaptcha/api/siteverify",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `secret=${secretKey}&response=${token}`,
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}&remoteip=${ip}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+      });
+      const data = await response.json();
+
+      if (data.success && data.score >= 0.5) {
+        res.status(200).json({ message: "Success" });
+      } else {
+        res.status(401).json({ message: "Unauthorized" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
     }
-  );
-
-  const data = await response.json();
-
-  if (data.success && data.score >= 0.5) {
-    res.status(200).json(data);
   } else {
-    res.status(401).json(data);
+    res.status(405).json({ message: "Method Not Allowed" });
   }
 }
