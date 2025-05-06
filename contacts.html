@@ -337,6 +337,7 @@
             "6Lc-lC8rAAAAAH-V2TKQNBBhNCgDT-AM2kbGk9iH",
             { action: "LOGIN" }
           );
+          console.log("🚀 ~ grecaptcha.enterprise.ready ~ token:", token);
 
           let res = await fetch("verify.php", {
             method: "POST",
@@ -346,6 +347,7 @@
             },
             body: JSON.stringify({ "g-token": token }),
           });
+          console.log("🚀 ~ grecaptcha.enterprise.ready ~ res:", res);
 
           if (res.status === 200) {
             sendEmail();
