@@ -145,7 +145,12 @@
             as
           </p>
           <p><i>Send an email. All field with an * are requried.</i></p>
-          <form action="#" method="post" id="formContact">
+          <form
+            action="#"
+            method="post"
+            id="formContact"
+            onsubmit="onSubmit(event)"
+          >
             <div class="row">
               <div class="col">
                 <div class="mb-3">
@@ -269,12 +274,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form
-              action="#"
-              method="post"
-              id="formLogin"
-              onsubmit="onSubmit(event)"
-            >
+            <form action="#" method="post" id="formLogin">
               <h3 class="text-center">Login Form</h3>
               <div class="mb-3">
                 <input
@@ -331,8 +331,8 @@
 
     <script>
       function onSubmit(event) {
+        console.log("🚀 ~ onSubmit ~ event:", event);
         event.preventDefault();
-        e.preventDefault();
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute(
             "6LcilC8rAAAAAEvduPSA_a564Y52vbYGCxXibKps",
@@ -348,6 +348,7 @@
             },
             body: JSON.stringify({ "g-token": token }),
           });
+          console.log("🚀 ~ grecaptcha.enterprise.ready ~ res:", res);
 
           if (res.status === 200) {
             sendEmail();
