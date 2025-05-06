@@ -199,19 +199,27 @@
                   required
                 ></textarea>
               </div>
-              <div class="d-flex justify-content-end align-items-center">
-                <label class="form-check-label pe-2" for="copy"
-                  >Send copy for yourself</label
-                >
-                <input
-                  class="form-check-input me-2"
-                  type="checkbox"
-                  value="1"
-                  id="copy"
-                />
-                <button type="submit" class="btn btn-primary">
-                  Send email to us
-                </button>
+              <!-- Error  -->
+              <div class="row">
+                <div class="col">
+                  <div class="text-success" id="responseMessage"></div>
+                </div>
+                <div class="col">
+                  <div class="d-flex justify-content-end align-items-center">
+                    <label class="form-check-label pe-2" for="copy"
+                      >Send copy for yourself</label
+                    >
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      value="1"
+                      id="copy"
+                    />
+                    <button type="submit" class="btn btn-primary">
+                      Send email to us
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </form>
@@ -292,8 +300,6 @@
                 />
               </div>
               <button type="submit" class="form-control">Login</button>
-
-              <div id="error_message" class="text-center text-danger"></div>
             </form>
           </div>
           <div class="modal-footer"></div>
@@ -334,7 +340,6 @@
             "6Lc-lC8rAAAAAH-V2TKQNBBhNCgDT-AM2kbGk9iH",
             { action: "LOGIN" }
           );
-          console.log("🚀 ~ grecaptcha.enterprise.ready ~ token:", token);
 
           let res = await fetch("/api/verify", {
             method: "POST",
@@ -343,18 +348,22 @@
             },
             body: JSON.stringify({ token: token }),
           });
-          console.log("🚀 ~ grecaptcha.enterprise.ready ~ res:", res);
 
           if (res.status === 200) {
             sendEmail();
           } else {
-            document.getElementById("error_message").innerHTML =
-              "Error: Can not verify recaptcha";
+            const res = document.getElementById("responseMessage");
+            res.innerHTML = "Error: can not verify ReCAPTCHA";
+            res.classList.remove();
+            res.classList.toggle("text-danger");
           }
         });
       }
       function sendEmail() {
-        console.log("send mail");
+        const res = document.getElementById("responseMessage");
+        res.innerHTML = "OK";
+        res.classList.remove();
+        res.classList.toggle("text-success");
       }
     </script>
   </body>

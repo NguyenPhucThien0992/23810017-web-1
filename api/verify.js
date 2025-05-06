@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { token } = req.body;
 
-    const secretKey = "6Lc-lC8rAAAAAMBfNlbqhUQd7WVaijoFrXg2_EAI";
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}&remoteip=${ip}`;
