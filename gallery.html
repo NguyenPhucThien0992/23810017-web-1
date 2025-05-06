@@ -25,17 +25,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <!-- script -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-      crossorigin="anonymous"
-    ></script>
+
     <!-- custom css -->
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -65,10 +55,7 @@
             >
               <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="index.html"
+                  <a class="nav-link" aria-current="page" href="index.html"
                     >Home</a
                   >
                 </li>
@@ -76,7 +63,7 @@
                   <a class="nav-link" href="about.html">About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="gallery.html">Gallery</a>
+                  <a class="nav-link active" href="gallery.html">Gallery</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="blogs.html">Blogs</a>
@@ -112,22 +99,26 @@
           </div>
         </nav>
       </header>
-
+      <section id="banner-small"></section>
       <!-- content -->
       <section class="container py-3">
         <h1>Gallery</h1>
+        <strong>Filter by category</strong>
+        <ul class="nav" id="category"></ul>
+
+        <div class="row py-2" id="gallery"></div>
       </section>
       <!-- footer -->
       <footer class="text-center container-fluid text-white py-3">
         <ul class="nav justify-content-center py-3" id="menu-footer">
           <li class="nav-item">
-            <a class="nav-link active" href="index.html">Home</a>
+            <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="about.html">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="gallery.html">Gallery</a>
+            <a class="nav-link active" href="gallery.html">Gallery</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="blogs.html">Blogs</a>
@@ -199,5 +190,70 @@
       </div>
     </div>
     <!-- end modal -->
+
+    <!-- script -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- handlebar js cdn -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
+      integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- templates -->
+    <script id="gallery-category-template" type="text/x-handlebars-template">
+      <li class="nav-item">
+        <a
+          class="nav-link disabled ps-0"
+          href="#"
+          onclick="fetchData('gallery', 'gallery-template','gallery'); disableLink(this)"
+        >Show All</a>
+      </li>
+      {{#each data}}
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            onclick="fetchData('gallery/categories/{{id}}', 'gallery-template','gallery');disableLink(this)"
+          >{{name}}</a>
+        </li>
+      {{/each}}
+    </script>
+
+    <script id="gallery-template" type="text/x-handlebars-template">
+      {{#each data}}
+        <div class="col-md-3">
+          <img src="{{thumbpath}}" alt="{name}" class="img-thumbnail mb-3" />
+        </div>
+      {{/each}}
+    </script>
+
+    <!--  -->
+    <script src="./js/fetchData.js"></script>
+    <script>
+      fetchData("gallery-categories", "gallery-category-template", "category");
+      fetchData("gallery", "gallery-template", "gallery");
+
+      function disableLink(link) {
+        let links = document.querySelectorAll("#category a");
+
+        for (let i = 0; i < links.length; i++) {
+          links[i].classList.remove("disabled");
+        }
+
+        link.classList.add("disabled");
+      }
+    </script>
   </body>
 </html>

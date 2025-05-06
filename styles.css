@@ -5,6 +5,10 @@
   --default-color-green: #73c926;
 }
 
+.default-text-blue {
+  color: var(--default-color-blue);
+}
+
 body {
   font-family: "Tagesschrift", system-ui;
   font-weight: 400;
@@ -76,6 +80,11 @@ h1 {
   min-height: 15rem;
 }
 
+#banner-small {
+  background-image: url("./images/bg-banner.gif");
+  padding: 5px;
+}
+
 #carousel-banner .carousel-indicators button {
   width: 1.2rem;
   height: 1.2rem;
@@ -107,8 +116,9 @@ h1 {
 }
 
 /* about us */
-#aboutus {
-  background-color: var(--default-color-pink);
+
+#about-us h4 {
+  color: black;
 }
 
 #formSignup {
@@ -120,6 +130,8 @@ h1 {
 
 #news .date {
   background-color: var(--default-color-green);
+  width: 5rem;
+  padding: 1.5rem;
 }
 
 /* footer */
@@ -143,4 +155,32 @@ footer {
 #formLogin button[type="submit"] {
   background-color: var(--default-color-blue);
   color: white;
+}
+
+/* testimondial */
+
+#testimonials {
+  background-color: var(--default-color-pink);
+}
+
+#testimonials .col {
+  background: url("images/quot.png") left top no-repeat;
+  padding-left: 3rem;
+}
+
+#blogs-categories ul li {
+  list-style-type: none;
+  background: url("images/marker1.png") 0 0.25rem no-repeat;
+  padding: 0 0 0.75rem 1.5rem;
+}
+
+/* map */
+#map {
+  height: 400px;
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: var(--default-color-blue);
+  border: none;
 }
