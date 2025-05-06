@@ -341,7 +341,7 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ "g-token": token }),
+            body: JSON.stringify({ token: token }),
           });
           console.log("🚀 ~ grecaptcha.enterprise.ready ~ res:", res);
 
