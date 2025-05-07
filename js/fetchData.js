@@ -5,8 +5,7 @@ async function fetchData(name, templateId, renderId) {
   await fetch(`${url}/${name}`)
     .then((res) => res.json())
     .then((data) => {
-      const source = document.getElementById(templateId).innerHTML;
-      const template = Handlebars.compile(source);
+      const template = Handlebars.templates[`${templateId}.hbs`];
       const context = { data };
 
       const view = document.getElementById(renderId);
@@ -23,8 +22,7 @@ async function fetchBlogPagination(
   await fetch(`${url}/${name}?page=${currentPage}`)
     .then((res) => res.json())
     .then((res) => {
-      const source = document.getElementById(templateId).innerHTML;
-      const template = Handlebars.compile(source);
+      const template = Handlebars.templates[`${templateId}.hbs`];
 
       let context = {};
       // pagination
@@ -170,3 +168,5 @@ function logout() {
 
 // username: web1
 // password: W3b1@Project
+
+//

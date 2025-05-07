@@ -1,0 +1,47 @@
+<h3>Blog</h3>
+      {{#each data}}
+        <div class="clearfix py-3">
+          <h3>{{name}}</h3>
+          <p
+            class="text-black-50"
+          >
+            by
+            {{author}}
+            in
+            <a href="javascript:void(0)"onclick="fetchBlogPagination('blogs/categories/{{category.id}}', 1, 'blogs-template', 'blogs')"
+            >{{category.name}}</a>on
+            {{formatDate date}}
+            <a href="#" onclick="fetchBlogDetails({{id}}, true, checkLogin)">Comment ({{comments.length}})</a>
+          </p>
+          <img
+            src="{{thumbpath}}"
+            alt="{{name}}"
+            class="float-start me-3 border rounded-3"
+          />
+          <p class="text-black-50">{{summary}}</p>
+          <a href="#" class="btn btn-link readmore ps-0" onclick="fetchBlogDetails({{id}}, false, checkLogin)">Read more</a>
+        </div>
+      {{/each}}
+      <!-- pagination -->
+      {{#pagination currentPage pageCount}}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            {{#each pages}}
+              {{#if isCurrent}}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">{{page}}</a>
+                </li>
+              {{/if}}
+
+              {{#unless isCurrent}}
+                <li class="page-item"><a
+                    class="page-link"
+                    href="#"
+                    onclick="fetchBlogPagination(
+                    '{{../../request}}', {{page}}, 'blogs-template', 'blogs')"
+                  >{{page}}</a></li>
+              {{/unless}}
+            {{/each}}
+          </ul>
+        </nav>
+      {{/pagination}}

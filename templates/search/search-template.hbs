@@ -1,0 +1,10 @@
+  {{#each data}}
+        <div class="card m-3 p-3">
+          <a
+            href="#"
+            onclick="fetchData('{{type}}/{{id}}', 'details-template', 'search-result')"
+            class="text-decoration-none"
+          ><h1>{{name}}</h1></a>
+          <div class="text-black-50">{{summary}}</div>
+        </div>
+      {{/each}}

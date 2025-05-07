@@ -1,0 +1,7 @@
+    {{#each data}}
+        <h1>{{name}}</h1>
+        {{#if imagepath}}
+          <img src="{{imagepath}}" class="float-start me-3" alt="{{name}}" />
+        {{/if}}
+        <div class="text-black-50">{{{description}}}</div>
+      {{/each}}

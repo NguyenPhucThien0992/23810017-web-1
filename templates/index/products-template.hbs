@@ -1,0 +1,19 @@
+    <div class="row text-center py-5">
+        {{#each data}}
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <img
+              src="{{imagepath}}"
+              alt="coffee"
+              onmouseover="setActiveInagePath(this, '{{imagepath}}')"
+              onmouseout="setActiveInagePath(this, '{{imagepath}}', false)"
+            />
+            <h2>{{name}}</h2>
+            <p class="text-black-50">{{summary}}</p>
+            <a
+              href="#"
+              class="readmore btn btn-link pt-0"
+              onclick="fetchData('products/{{id}}', 'details-template', 'content')"
+            > Read more</a>
+          </div>
+        {{/each}}
+      </div>

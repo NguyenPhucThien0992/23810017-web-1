@@ -27,7 +27,7 @@
     />
 
     <!-- custom css -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.min.css" />
   </head>
   <body>
     <div class="container-fluid">
@@ -221,42 +221,15 @@
 
     <!-- handlebar js cdn -->
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
-      integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.runtime.min.js"
+      integrity="sha512-WUaZk9J3oknQdKPT2wAfA0gEBG2371l1ACjiynLA/X28p07n1u59VFk7q1i83/bo7N9rqVdYKlnvwAAiwL36jQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-
-    <!-- templates -->
-    <script id="gallery-category-template" type="text/x-handlebars-template">
-      <li class="nav-item">
-        <a
-          class="nav-link disabled ps-0"
-          href="#"
-          onclick="fetchData('gallery', 'gallery-template','gallery'); disableLink(this)"
-        >Show All</a>
-      </li>
-      {{#each data}}
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            onclick="fetchData('gallery/categories/{{id}}', 'gallery-template','gallery');disableLink(this)"
-          >{{name}}</a>
-        </li>
-      {{/each}}
-    </script>
-
-    <script id="gallery-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col-md-3">
-          <img src="{{thumbpath}}" alt="{name}" class="img-thumbnail mb-3" />
-        </div>
-      {{/each}}
-    </script>
+    <script src="js/templates/gallery.templates.min.js"></script>
 
     <!--  -->
-    <script src="./js/fetchData.js"></script>
+    <script src="./js/fetchData.min.js"></script>
     <script>
       checkLogin();
       fetchData("gallery-categories", "gallery-category-template", "category");
