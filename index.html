@@ -82,12 +82,7 @@
                     data-bs-target="#loginModal"
                     >Login</a
                   >
-                  <a
-                    class="nav-link linkLogout"
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#loginModal"
-                    onclick="logout()"
+                  <a class="nav-link linkLogout" href="#" onclick="logout()"
                     >Logout</a
                   >
                 </li>
@@ -426,7 +421,6 @@
       function login(event) {
         event.preventDefault();
         let username = document.getElementById("username").value;
-        console.log("🚀 ~ login ~ username:", username);
         let password = document.getElementById("password").value;
 
         getAuthenticate(username, password)
