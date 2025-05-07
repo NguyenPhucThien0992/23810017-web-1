@@ -73,11 +73,14 @@
                 </li>
                 <li class="nav-item">
                   <a
-                    class="nav-link"
+                    class="nav-link linkLogin"
                     href="#"
                     data-bs-toggle="modal"
                     data-bs-target="#loginModal"
                     >Login</a
+                  >
+                  <a class="nav-link linkLogout" href="#" onclick="logout()"
+                    >Logout</a
                   >
                 </li>
               </ul>
@@ -128,11 +131,14 @@
           </li>
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link linkLogin"
               href="#"
               data-bs-toggle="modal"
               data-bs-target="#loginModal"
               >Login</a
+            >
+            <a class="nav-link linkLogout" href="#" onclick="logout()"
+              >Logout</a
             >
           </li>
         </ul>
@@ -162,7 +168,12 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form action="#" method="post" id="formLogin">
+            <form
+              action="#"
+              method="post"
+              id="formLogin"
+              onsubmit="login(event)"
+            >
               <h3 class="text-center">Login Form</h3>
               <div class="mb-3">
                 <input
@@ -242,6 +253,7 @@
     <!--  -->
     <script src="./js/fetchData.js"></script>
     <script>
+      checkLogin();
       fetchData("gallery-categories", "gallery-category-template", "category");
       fetchData("gallery", "gallery-template", "gallery");
 
@@ -253,6 +265,58 @@
         }
 
         link.classList.add("disabled");
+      }
+
+      function login(event) {
+        event.preventDefault();
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        getAuthenticate(username, password)
+          .then((token) => {
+            localStorage.setItem("token", token);
+            document.getElementsByClassName("btn-close")[0].click();
+            displayControl();
+          })
+          .catch((err) => {
+            document.getElementById("errorMessage").innerHTML = err;
+            displayControl(false);
+          });
+      }
+
+      function displayControl(isLogin = true) {
+        let linkLogin = document.getElementsByClassName("linkLogin");
+        let linkLogout = document.getElementsByClassName("linkLogout");
+
+        for (let i = 0; i < linkLogin.length; i++) {
+          linkLogin[i].style.display = isLogin ? "none" : "block";
+          linkLogout[i].style.display = isLogin ? "block" : "none";
+        }
+      }
+
+      async function verify() {
+        try {
+          let token = localStorage.getItem("token");
+          if (token) {
+            let response = await verify(token);
+            if (response.status == 200) {
+              return true;
+            }
+          }
+        } catch (err) {
+          return false;
+        }
+        return false;
+      }
+
+      async function checkLogin() {
+        let isLogin = await verify();
+        displayControl(isLogin);
+      }
+
+      function logout() {
+        localStorage.clear("token");
+        displayControl(false);
       }
     </script>
   </body>

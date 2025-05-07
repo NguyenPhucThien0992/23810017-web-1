@@ -90,3 +90,18 @@ async function sendMail(body, token) {
 
   throw new Error(result.message);
 }
+
+async function verify(token) {
+  return await fetch(`${userUrl}/verify`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application.json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ token }),
+  });
+}
+
+// username: web1
+// password: W3b1@Project
