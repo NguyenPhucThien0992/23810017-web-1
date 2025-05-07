@@ -253,14 +253,14 @@
           <h3>{{name}}</h3>
           <p
             class="text-black-50"
-            onclick="fetchBlogPagination('blogs/categories/{{category.id}}', 1, 'blogs-template', 'blogs')"
           >
             by
             {{author}}
             in
-            <a href="#">{{category.name}}</a>on
+            <a href="#"onclick="fetchBlogPagination('blogs/categories/{{category.id}}', 1, 'blogs-template', 'blogs')"
+            >{{category.name}}</a>on
             {{formatDate date}}
-            <a href="#" onclick="fetchBlogDetails('blogs/categories/{{category.id}}', true)">Comment ({{comments.length}})</a>
+            <a href="#" onclick="fetchBlogDetails({{id}}, true, checkLogin)">Comment ({{comments.length}})</a>
           </p>
           <img
             src="{{thumbpath}}"
@@ -268,7 +268,7 @@
             class="float-start me-3 border rounded-3"
           />
           <p class="text-black-50">{{summary}}</p>
-          <a href="#" class="btn btn-link readmore ps-0" onclick="fetchBlogDetails({{id}})">Read more</a>
+          <a href="#" class="btn btn-link readmore ps-0" onclick="fetchBlogDetails({{id}}, false, checkLogin)">Read more</a>
         </div>
       {{/each}}
       <!-- pagination -->
@@ -308,7 +308,10 @@
             {{category.name}}
             on
             {{formatDate date}}
-            <a href="#comments">Comment ({{comments.length}})</a>
+            <a
+              href="#comments"
+              onclick="fetchBlogDetails({{id}}, true)     "
+            >Comment ({{comments.length}})</a>
           </p>
           <img
             src="{{thumbpath}}"
@@ -317,9 +320,16 @@
           />
           <div class="text-black-50">{{{description}}}</div>
         </div>
-        <div class="py-3">
+        <div class="py-3" id="leave-comment">
           <h3>Leave your comments</h3>
-          <form action="#" id="formComment" method="post" class="text-black-50">
+          <form
+            action="#"
+            id="formComment"
+            method="post"
+            onsubmit="onSubmitComment(event)"
+            class="text-black-50"
+          >
+            <input type="hidden" id="blogId" value="{{id}}" />
             <div class="row">
               <div class="col-4">
                 <div class="mb-3">
@@ -353,8 +363,8 @@
               <div class="mb-3">
                 <textarea
                   class="form-control"
-                  name="message"
-                  id="message"
+                  name="comment"
+                  id="comment"
                   rows="3"
                   placeholder=""
                 ></textarea>
@@ -374,8 +384,11 @@
                   <label class="form-check-label" for="first">Argree to terms
                     and conditions</label>
                 </div>
-                <button type="submit" class="btn btn-primary">submit Comment
+                <button type="submit" class="btn btn-primary">Submit Comment
                 </button>
+              </div>
+              <div class="text-center">
+                <div class="text-success" id="responseMessage"></div>
               </div>
             </div>
           </form>
@@ -446,13 +459,18 @@
           linkLogin[i].style.display = isLogin ? "none" : "block";
           linkLogout[i].style.display = isLogin ? "block" : "none";
         }
+
+        let leaveComment = document.getElementById("leave-comment");
+        if (leaveComment) {
+          leaveComment.style.display = isLogin ? "block" : "none";
+        }
       }
 
       async function verify() {
         try {
           let token = localStorage.getItem("token");
           if (token) {
-            let response = await verify(token);
+            let response = await verifyToken(token);
             if (response.status == 200) {
               return true;
             }
@@ -471,6 +489,38 @@
       function logout() {
         localStorage.clear("token");
         displayControl(false);
+      }
+
+      async function onSubmitComment(event) {
+        event.preventDefault();
+        const responseMessage = document.getElementById("responseMessage");
+        let token = localStorage.getItem("token");
+
+        const blogId = document.getElementById("blogId").value;
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const comment = document.getElementById("comment").value;
+        const agree = document.getElementById("agree").checked;
+
+        try {
+          let response = await postComment({
+            blogId,
+            name,
+            email,
+            comment,
+            agree,
+            token,
+          });
+
+          if (response.status == 200) {
+            fetchBlogDetails(blogId, true, checkLogin);
+          } else {
+            throw new Error(response.message);
+          }
+        } catch (err) {
+          responseMessage.innerHTML = err;
+          responseMessage.className = "text-danger";
+        }
       }
     </script>
   </body>

@@ -44,9 +44,10 @@ async function fetchBlogPagination(
     });
 }
 
-async function fetchBlogDetails(blogId, gotoComment = false) {
+async function fetchBlogDetails(blogId, gotoComment = false, cb) {
   await fetchBlogPagination("blogs/" + blogId, 1, "details-template", "blogs");
 
+  cb();
   if (gotoComment) {
     window.location.href = "#comments";
   }
@@ -91,7 +92,7 @@ async function sendMail(body, token) {
   throw new Error(result.message);
 }
 
-async function verify(token) {
+async function verifyToken(token) {
   return await fetch(`${userUrl}/verify`, {
     method: "POST",
     headers: {
@@ -103,5 +104,16 @@ async function verify(token) {
   });
 }
 
+async function postComment({ token, ...payload }) {
+  return await fetch(`${userUrl}/comment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application.json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+}
 // username: web1
 // password: W3b1@Project
