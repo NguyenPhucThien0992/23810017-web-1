@@ -262,7 +262,7 @@
             by
             {{author}}
             in
-            <a href="#"onclick="fetchBlogPagination('blogs/categories/{{category.id}}', 1, 'blogs-template', 'blogs')"
+            <a href="javascript:void(0)"onclick="fetchBlogPagination('blogs/categories/{{category.id}}', 1, 'blogs-template', 'blogs')"
             >{{category.name}}</a>on
             {{formatDate date}}
             <a href="#" onclick="fetchBlogDetails({{id}}, true, checkLogin)">Comment ({{comments.length}})</a>
@@ -438,63 +438,6 @@
         return formatDate.toLocaleDateString("en-US", options);
       });
       fetchBlogPagination("blogs", 1, "blogs-template", "blogs");
-
-      function login(event) {
-        event.preventDefault();
-        let username = document.getElementById("username").value;
-        let password = document.getElementById("password").value;
-
-        getAuthenticate(username, password)
-          .then((token) => {
-            localStorage.setItem("token", token);
-            document.getElementsByClassName("btn-close")[0].click();
-            displayControl();
-          })
-          .catch((err) => {
-            document.getElementById("errorMessage").innerHTML = err;
-            displayControl(false);
-          });
-      }
-
-      function displayControl(isLogin = true) {
-        let linkLogin = document.getElementsByClassName("linkLogin");
-        let linkLogout = document.getElementsByClassName("linkLogout");
-
-        for (let i = 0; i < linkLogin.length; i++) {
-          linkLogin[i].style.display = isLogin ? "none" : "block";
-          linkLogout[i].style.display = isLogin ? "block" : "none";
-        }
-
-        let leaveComment = document.getElementById("leave-comment");
-        if (leaveComment) {
-          leaveComment.style.display = isLogin ? "block" : "none";
-        }
-      }
-
-      async function verify() {
-        try {
-          let token = localStorage.getItem("token");
-          if (token) {
-            let response = await verifyToken(token);
-            if (response.status == 200) {
-              return true;
-            }
-          }
-        } catch (err) {
-          return false;
-        }
-        return false;
-      }
-
-      async function checkLogin() {
-        let isLogin = await verify();
-        displayControl(isLogin);
-      }
-
-      function logout() {
-        localStorage.clear("token");
-        displayControl(false);
-      }
 
       async function onSubmitComment(event) {
         event.preventDefault();

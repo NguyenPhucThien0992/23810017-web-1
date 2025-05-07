@@ -115,7 +115,7 @@
         <h1 class="pb-3">Contacts</h1>
         <div id="map"></div>
 
-        <div class="row">
+        <div class="row py-3">
           <div class="col">
             <h1>Address</h1>
             <div class="py-3 text-black-50">
@@ -399,58 +399,6 @@
           responseMessage.classList.remove();
           responseMessage.classList.toggle("text-danger");
         }
-      }
-
-      function login(event) {
-        event.preventDefault();
-        let username = document.getElementById("username").value;
-        let password = document.getElementById("password").value;
-
-        getAuthenticate(username, password)
-          .then((token) => {
-            localStorage.setItem("token", token);
-            document.getElementsByClassName("btn-close")[0].click();
-            displayControl();
-          })
-          .catch((err) => {
-            document.getElementById("errorMessage").innerHTML = err;
-            displayControl(false);
-          });
-      }
-
-      function displayControl(isLogin = true) {
-        let linkLogin = document.getElementsByClassName("linkLogin");
-        let linkLogout = document.getElementsByClassName("linkLogout");
-
-        for (let i = 0; i < linkLogin.length; i++) {
-          linkLogin[i].style.display = isLogin ? "none" : "block";
-          linkLogout[i].style.display = isLogin ? "block" : "none";
-        }
-      }
-
-      async function verify() {
-        try {
-          let token = localStorage.getItem("token");
-          if (token) {
-            let response = await verifyToken(token);
-            if (response.status == 200) {
-              return true;
-            }
-          }
-        } catch (err) {
-          return false;
-        }
-        return false;
-      }
-
-      async function checkLogin() {
-        let isLogin = await verify();
-        displayControl(isLogin);
-      }
-
-      function logout() {
-        localStorage.clear("token");
-        displayControl(false);
       }
     </script>
   </body>
