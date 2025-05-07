@@ -87,12 +87,17 @@
               <form
                 class="d-flex rounded-pill border border-success ms-2"
                 id="formSearch"
+                method="GET"
+                action="search.html"
               >
                 <input
                   class="form-control border-0 ms-3"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  id="keyword"
+                  name="keyword"
+                  required
                 />
                 <button class="btn border-0" type="submit">
                   <i class="fa-solid fa-magnifying-glass"></i>
@@ -369,7 +374,7 @@
         try {
           let token = localStorage.getItem("token");
           if (token) {
-            let response = await verify(token);
+            let response = await verifyToken(token);
             if (response.status == 200) {
               return true;
             }
